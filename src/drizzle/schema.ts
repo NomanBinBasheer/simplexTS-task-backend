@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, float, text, int, serial } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, float, text, int, serial, boolean } from 'drizzle-orm/mysql-core';
 
 export const Product = mysqlTable('products', {
   id: serial('id').primaryKey(),
@@ -10,4 +10,5 @@ export const Product = mysqlTable('products', {
   quantity: int('quantity').notNull(),
   image: varchar('image', { length: 255 }).notNull(),
   priority: int('priority').notNull(),
+  isDeleted: boolean('isDeleted').notNull().default(false)
 });

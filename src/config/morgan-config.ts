@@ -39,7 +39,7 @@ morgan.token("colored-status", (req: Request, res) => {
 morgan.token("colored-method", (req, res) => {
   const method: HttpVerbs = req.method as HttpVerbs;
   const color: string = REQ_COLORS[method] || "white";
-  console.log("Color:", color);
+  // console.log("Color:", color);
   //   @ts-expect-error
   return colors[color](method.toString());
 });
