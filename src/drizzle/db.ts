@@ -5,7 +5,7 @@ import * as schema from './schema';
 export const pool =  mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'root',
+  password: '66626',
   database: 'simplex_mern_task_db',
   multipleStatements: true,
 });
