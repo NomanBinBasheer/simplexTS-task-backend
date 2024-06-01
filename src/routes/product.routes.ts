@@ -3,23 +3,28 @@ import {
     deleteProduct,
     getAllProducts,
     getOneProduct,
-    updateProduct
+    updateProduct,
+    uploadProductImage
 } from "@/controllers/product.controllers";
+import { upload } from "@/middlewares/multer.middleware";
+
 import { Router } from "express";
 
 const router = Router();
 
 
 // Routes for Products
-router.post("/createProduct", createProduct)
+router.route("/createProduct").post(createProduct)
 
-router.get("/getAllProducts", getAllProducts)
+router.route("/uploadProductImage").post(upload.single("image"), uploadProductImage)
 
-router.get("/getOneProduct/:_id", getOneProduct)
+router.route("/getAllProducts").get(getAllProducts)
 
-router.delete("/deleteProduct/:_id", deleteProduct)
+router.route("/getOneProduct/:_id").get(getOneProduct)
 
-router.patch("/updateProduct/:_id", updateProduct)
+router.route("/deleteProduct/:_id").delete(deleteProduct)
+
+router.route("/updateProduct/:_id").patch(updateProduct)
 
 
 export default router
