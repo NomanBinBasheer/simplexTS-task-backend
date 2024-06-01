@@ -1,0 +1,1 @@
+ALTER TABLE `products` ADD `isDeleted` boolean DEFAULT false NOT NULL;

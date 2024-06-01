@@ -1,3 +1,7 @@
+interface AuditFields{
+    isDeleted: boolean;
+}
+
 export interface IProduct {
     id: number;
     name: string;
@@ -7,5 +11,7 @@ export interface IProduct {
     description: string;
     quantity: number;
     image: string;
-    priority: number;
+    priority: number; 
 }
+
+export interface IProductWithAudit extends IProduct, AuditFields{}
