@@ -8,13 +8,6 @@ import { User } from "@/drizzle/schema";
 import { ApiResponse } from "@/utils/ApiResponse";
 import { IUser, IUserForFE } from "@/types";
 
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       user?: User | undefined;
-//     }
-//   }
-// }
 
 export const validateUserToken = asyncHandler(
   async (req: Request & { user?: IUser }, res: Response, next: NextFunction) => {

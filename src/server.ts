@@ -11,4 +11,3 @@ app.listen(port, () => {
   );
 });
 
-// app.use("/api", apiRoutes);
