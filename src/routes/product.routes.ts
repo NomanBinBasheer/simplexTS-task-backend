@@ -20,9 +20,9 @@ router.route("/createProduct").post(validateUserToken, createProduct)
 
 router.route("/uploadProductImage").post(upload.single("image"), validateUserToken, uploadProductImage)
 
-router.route("/getAllProducts").get(validateUserToken, getAllProducts)
+router.route("/getAllProducts").get(getAllProducts)
 
-router.route("/getOneProduct/:_id").get(validateUserToken, getOneProduct)
+router.route("/getOneProduct/:_id").get(getOneProduct)
 
 router.route("/deleteProduct/:_id").delete(validateUserToken, deleteProduct)
 
