@@ -195,7 +195,7 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
                 priority: Product.priority
             })
             .from(Product)
-            .where(eq(Product.id, insertedId))
+            .where(eq(Product.id, productId))
             .limit(1);
             
             console.log(result);
