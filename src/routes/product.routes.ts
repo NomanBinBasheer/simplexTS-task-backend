@@ -1,3 +1,4 @@
+
 import {
     createProduct,
     deleteProduct,
@@ -5,7 +6,7 @@ import {
     getOneProduct,
     updateProduct,
     uploadProductImage
-} from "@/controllers/product.controllers";
+} from "@/controllers/products";
 import { upload } from "@/middlewares/multer.middleware";
 import { validateUserToken } from "@/middlewares/validateUser.middleware";
 
