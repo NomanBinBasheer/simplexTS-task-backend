@@ -25,10 +25,7 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
             quantity,
             image,
             priority
-        });
-
-        console.log(result);
-        
+        });        
 
         const insertedId = result.insertId;
 
@@ -70,6 +67,8 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 
 const getAllProducts = asyncHandler(async (req: Request, res: Response) => {
     try {
+
+        // fetching all products from db using db.select()
         const products: IProduct[] = await db
             .select({
                 id: Product.id,
