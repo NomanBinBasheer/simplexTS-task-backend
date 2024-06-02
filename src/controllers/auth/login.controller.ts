@@ -11,7 +11,7 @@ import { ApiResponse } from '@/utils/ApiResponse';
 import hashPassword from '@/utils/hashPassword';
 
 
-const login = asyncHandler(async (req: Request, res: Response) => {
+export const login = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
@@ -60,5 +60,3 @@ const login = asyncHandler(async (req: Request, res: Response) => {
             .json(new ApiResponse(500, null, "Internal Server Error"));
     }
 })
-
-export { login }

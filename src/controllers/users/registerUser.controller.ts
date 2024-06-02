@@ -6,14 +6,12 @@ import { asyncHandler } from "@/utils/asyncHandler";
 import { User } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { db } from '@/drizzle/db';
-import { and } from 'drizzle-orm';
 import { ApiResponse } from '@/utils/ApiResponse';
 import hashPassword from '@/utils/hashPassword';
 import { IUser, IUserForFE } from '@/types/user';
 import { MySqlRawQueryResult } from 'drizzle-orm/mysql2';
 
-
-const registerUser = asyncHandler(async (req: Request, res: Response) => {
+export const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
     try {
         if (!name || !email || !password) {
@@ -40,31 +38,38 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
         if (!hashedPassword) throw new ApiError(500, "Error hashing password");
 
         // Inserting user into DB
-        const [user]: MySqlRawQueryResult = await db
+        const insertResult: MySqlRawQueryResult = await db
             .insert(User)
-            .values({ name, email, password: hashedPassword })
+            .values({ name, email, password: hashedPassword });
 
-        const insertedId = user?.insertId;
+        const insertedId = insertResult[0]?.insertId;
+        if (!insertedId) throw new ApiError(500, "Error inserting user");
 
         // Fetching the inserted user
-        const [createdUser]: IUserForFE[] = await db
+        const fetchedUsers: IUserForFE[] = await db
             .select({
                 id: User.id,
                 name: User.name,
                 email: User.email
             })
             .from(User)
-            .where(eq(User.id, insertedId))
+            .where(eq(User.id, insertedId));
 
-        const payload = { userId: createdUser?.id };
-        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY as string, {
+        const createdUser = fetchedUsers[0];
+        if (!createdUser) throw new ApiError(500, "Error creating user");
+
+        interface JwtPayload {
+            userId: number;
+        }
+
+        const payload: JwtPayload = { userId: createdUser.id };
+        const token: string = jwt.sign(payload, process.env.JWT_SECRET_KEY as string, {
             expiresIn: "10d",
         });
 
-
         return res
             .status(200)
-            .json(new ApiResponse(200, {createdUser, token}, "User created successfully"));
+            .json(new ApiResponse(200, { createdUser, token }, "User created successfully"));
 
     } catch (error) {
         if (error instanceof ApiError) {
@@ -77,6 +82,4 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
             .status(500)
             .json(new ApiResponse(500, null, "Internal Server Error"));
     }
-})
-
-export {registerUser}
+});
