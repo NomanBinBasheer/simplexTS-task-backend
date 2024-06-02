@@ -4,6 +4,8 @@ import morganMiddleware from "@/config/morgan-config";
 
 ///////////////  Import Routes  ////////////////////
 import productRoutes from "./routes/product.routes";
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 
@@ -22,5 +24,7 @@ app.get("/", (req, res: Response) => {
 ///////////////  Routes Decleration  ////////////////////
 
 app.use("/api/v1/products", productRoutes)
+app.use("/api/v1/products", productRoutes)
+app.use("/api/v1/users", userRoutes)
 
 export default app
