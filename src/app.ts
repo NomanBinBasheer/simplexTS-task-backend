@@ -24,7 +24,7 @@ app.get("/", (req, res: Response) => {
 ///////////////  Routes Decleration  ////////////////////
 
 app.use("/api/v1/products", productRoutes)
-app.use("/api/v1/products", productRoutes)
+app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/users", userRoutes)
 
 export default app
