@@ -1,12 +1,15 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
-import * as schema from './schema';
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 export const pool =  mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '66626',
-  database: 'simplex_mern_task_db',
+  host: process.env.MYSQL_HOST as string,
+  user: process.env.MYSQL_USER as string,
+  password: process.env.MYSQL_PASSWORD as string,
+  database: process.env.MYSQL_DATABASE as string,
   multipleStatements: true,
 });
 

@@ -1,13 +1,17 @@
 import { defineConfig } from 'drizzle-kit';
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 export default defineConfig({
   schema: './src/drizzle/schema.ts',
   out: './src/drizzle/migrations',
   dialect: 'mysql', 
   dbCredentials: {
-    host: 'localhost',
-    user: 'root',
-    password: '66626',
-    database: 'simplex_mern_task_db',
+    host: process.env.MYSQL_HOST as string,
+    user: process.env.MYSQL_USER as string,
+    password: process.env.MYSQL_PASSWORD as string,
+    database: process.env.MYSQL_DATABASE as string,
   },
 });
