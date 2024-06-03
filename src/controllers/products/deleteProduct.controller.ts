@@ -5,6 +5,7 @@ import { asyncHandler } from '@/utils/asyncHandler';
 import { ApiResponse } from '@/utils/ApiResponse';
 import { ApiError } from '@/utils/ApiError';
 import { eq } from 'drizzle-orm';
+import { sendError } from '@/utils/sendError';
 
 
 export const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -30,16 +31,7 @@ export const deleteProduct = asyncHandler(async (req: Request, res: Response) =>
             .json(new ApiResponse(200, null, "Product deleted successfully"));
     }
     catch (error) {
-        if (error instanceof ApiError) {
-            return res
-                .status(error.statusCode)
-                .json(new ApiResponse(error.statusCode, null, error.message));
-        }
-
-        console.error(error);
-        return res
-            .status(500)
-            .json(new ApiResponse(500, null, "Internal Server Error"));
+        return sendError(res, error);
     }
 
 })

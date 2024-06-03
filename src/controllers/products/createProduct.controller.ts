@@ -7,6 +7,7 @@ import { ApiError } from '@/utils/ApiError';
 import { eq } from 'drizzle-orm';
 import { MySqlRawQueryResult } from 'drizzle-orm/mysql2';
 import { IProduct } from '@/types';
+import { sendError } from '@/utils/sendError';
 
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
     const { name, category, price, size, description, quantity, image, priority } = req.body;
@@ -52,16 +53,6 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
             .json(new ApiResponse(201, product, "Product created successfully"));
 
     } catch (error) {
-        if (error instanceof ApiError) {
-            return res
-                .status(error.statusCode)
-                .json(new ApiResponse(error.statusCode, null, error.message));
-        }
-
-        console.error(error);
-        return res
-            .status(500)
-            .json(new ApiResponse(500, null, "Internal Server Error"));
-
+        return sendError(res, error);
     }
 })

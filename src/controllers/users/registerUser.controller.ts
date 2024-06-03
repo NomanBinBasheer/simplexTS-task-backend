@@ -10,6 +10,7 @@ import { ApiResponse } from '@/utils/ApiResponse';
 import hashPassword from '@/utils/hashPassword';
 import { IUser, IUserForFE } from '@/types/user';
 import { MySqlRawQueryResult } from 'drizzle-orm/mysql2';
+import { sendError } from '@/utils/sendError';
 
 export const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
@@ -72,14 +73,6 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
             .json(new ApiResponse(200, { createdUser, token }, "User created successfully"));
 
     } catch (error) {
-        if (error instanceof ApiError) {
-            return res
-                .status(error.statusCode)
-                .json(new ApiResponse(error.statusCode, null, error.message));
-        }
-        console.error(error);
-        return res
-            .status(500)
-            .json(new ApiResponse(500, null, "Internal Server Error"));
+        return sendError(res, error);
     }
 });

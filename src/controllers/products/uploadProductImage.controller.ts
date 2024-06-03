@@ -4,6 +4,7 @@ import { ApiResponse } from '@/utils/ApiResponse';
 import { ApiError } from '@/utils/ApiError';
 import { UploadApiResponse } from 'cloudinary';
 import { uploadOnCloudinary } from '@/utils/cloudinary';
+import { sendError } from '@/utils/sendError';
 
 
 export const uploadProductImage = asyncHandler(async (req: Request, res: Response) => {
@@ -25,14 +26,6 @@ export const uploadProductImage = asyncHandler(async (req: Request, res: Respons
             .json(new ApiResponse(201, uploadedFileResponse.url, "Image uploaded successfully"));
 
     } catch (error) {
-        if (error instanceof ApiError) {
-            return res
-                .status(error.statusCode)
-                .json(new ApiResponse(error.statusCode, null, error.message));
-        }
-        console.error(error);
-        return res
-            .status(500)
-            .json(new ApiResponse(500, null, "Internal Server Error"));
+        return sendError(res, error);
     }
 })
